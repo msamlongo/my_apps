@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria Apps - Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.12);
+            padding: 48px 32px 40px 32px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            color: #3b3b5c;
+            margin-bottom: 12px;
+        }
+        p {
+            color: #5a5a7a;
+            font-size: 1.2rem;
+            margin-bottom: 36px;
+        }
+        .apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            align-items: center;
+        }
+        .app-card {
+            background: #f1f5fb;
+            border-radius: 12px;
+            padding: 22px 32px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 2px 8px rgba(60, 72, 88, 0.07);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .app-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(60, 72, 88, 0.13);
+        }
+        .app-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #2d3a4a;
+            margin-bottom: 6px;
+        }
+        .app-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 20px;
+            background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .app-link:hover {
+            background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px 8px 24px 8px;
+            }
+            .app-card {
+                padding: 16px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maria Apps</h1>
+        <p>Welcome! Explore the collection of simple and useful web apps by Maria. Click below to get started:</p>
+        <div class="apps-list">
+            <div class="app-card">
+                <div class="app-title">BMI Calculator</div>
+                <a class="app-link" href="maria_apps/bmi.html">Open App</a>
+            </div>
+            <div class="app-card">
+                <div class="app-title">EER Calculator</div>
+                <a class="app-link" href="maria_apps/EER.html">Open App</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
