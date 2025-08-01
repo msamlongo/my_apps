@@ -3,132 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Energy & Macronutrient Calculator</title>
+  <title>Tanzania Meal Plan Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-50 min-h-screen flex items-center justify-center px-4">
+<body class="bg-blue-50 min-h-screen flex items-center justify-center px-4 py-8">
 
-  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-2xl w-full">
-    <h1 class="text-3xl font-bold text-blue-600 text-center mb-6">Energy & Macronutrient Calculator</h1>
+  <div class="bg-white p-8 rounded-2xl shadow-lg max-w-2xl w-full">
+    <h1 class="text-3xl font-bold text-blue-600 text-center mb-6">Energy & Tanzanian Meal Plan Calculator</h1>
 
-    <form id="energyForm" class="space-y-4">
+    <form id="calcForm" class="space-y-4">
       <div>
-        <label class="block text-blue-700 font-medium">Age (years)</label>
-        <input type="number" id="age" class="w-full px-4 py-2 border border-blue-300 rounded-xl" required />
+        <label class="block text-sm font-medium text-blue-700">Age (years)</label>
+        <input type="number" id="age" class="w-full border border-blue-300 p-2 rounded-lg" required />
       </div>
-
       <div>
-        <label class="block text-blue-700 font-medium">Gender</label>
-        <select id="gender" class="w-full px-4 py-2 border border-blue-300 rounded-xl" required>
+        <label class="block text-sm font-medium text-blue-700">Gender</label>
+        <select id="gender" class="w-full border border-blue-300 p-2 rounded-lg" required>
           <option value="">Select</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
       </div>
-
       <div>
-        <label class="block text-blue-700 font-medium">Weight (kg)</label>
-        <input type="number" id="weight" class="w-full px-4 py-2 border border-blue-300 rounded-xl" required />
+        <label class="block text-sm font-medium text-blue-700">Weight (kg)</label>
+        <input type="number" id="weight" class="w-full border border-blue-300 p-2 rounded-lg" required />
       </div>
-
       <div>
-        <label class="block text-blue-700 font-medium">Height (cm)</label>
-        <input type="number" id="height" class="w-full px-4 py-2 border border-blue-300 rounded-xl" required />
+        <label class="block text-sm font-medium text-blue-700">Height (cm)</label>
+        <input type="number" id="height" class="w-full border border-blue-300 p-2 rounded-lg" required />
       </div>
-
       <div>
-        <label class="block text-blue-700 font-medium">Activity Level</label>
-        <select id="activity" class="w-full px-4 py-2 border border-blue-300 rounded-xl" required>
-          <option value="">Select</option>
-          <option value="1.2">Sedentary (little or no exercise)</option>
-          <option value="1.375">Lightly active (1–3 days/week)</option>
-          <option value="1.55">Moderately active (3–5 days/week)</option>
-          <option value="1.725">Very active (6–7 days/week)</option>
-          <option value="1.9">Super active (physical job & exercise)</option>
+        <label class="block text-sm font-medium text-blue-700">Activity Level</label>
+        <select id="activity" class="w-full border border-blue-300 p-2 rounded-lg" required>
+          <option value="1.2">Sedentary</option>
+          <option value="1.375">Lightly active</option>
+          <option value="1.55">Moderately active</option>
+          <option value="1.725">Very active</option>
+          <option value="1.9">Super active</option>
         </select>
       </div>
 
-      <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-600 transition">
-        Calculate
+      <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+        Calculate & Generate Meal Plan
       </button>
     </form>
 
-    <div id="result" class="mt-8 hidden text-blue-800">
-      <h2 class="text-xl font-semibold mb-2">Results:</h2>
-      <p id="calories" class="mb-2"></p>
-      <div class="mt-4">
-        <h3 class="font-semibold text-blue-700">Macronutrient Ranges (grams/day):</h3>
-        <ul class="list-disc list-inside mt-2 space-y-1">
-          <li id="carbs"></li>
-          <li id="protein"></li>
-          <li id="fat"></li>
-        </ul>
-      </div>
+    <div id="result" class="mt-8 hidden">
+      <h2 class="text-xl font-semibold text-blue-700 mb-2">Results</h2>
+      <p id="teeResult" class="mb-4 text-blue-800"></p>
+
+      <h3 class="text-lg font-medium text-blue-700">Sample Tanzanian Meal Plan:</h3>
+      <ul id="mealPlan" class="list-disc list-inside text-blue-900 mt-2 space-y-1"></ul>
     </div>
   </div>
 
-    <!-- Keep same HTML head as before -->
-    <!-- Inside <body>, replace the script section with this -->
-    <script>
-  document.getElementById('energyForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+  <script>
+    const form = document.getElementById('calcForm');
+    const resultDiv = document.getElementById('result');
+    const teeText = document.getElementById('teeResult');
+    const mealList = document.getElementById('mealPlan');
 
-    const age = parseFloat(document.getElementById('age').value);
-    const gender = document.getElementById('gender').value;
-    const weight = parseFloat(document.getElementById('weight').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const activity = parseFloat(document.getElementById('activity').value);
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    let bmr;
+      const age = parseInt(document.getElementById('age').value);
+      const gender = document.getElementById('gender').value;
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const activity = parseFloat(document.getElementById('activity').value);
 
-    if (gender === 'male') {
-      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-    } else {
-      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-    }
+      let bmr;
+      if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else {
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
 
-    const tee = Math.round(bmr * activity);
+      const tee = Math.round(bmr * activity);
 
-    // Macronutrient ranges
-    const carbMin = Math.round((0.45 * tee) / 4);
-    const carbMax = Math.round((0.65 * tee) / 4);
-    const proteinMin = Math.round((0.10 * tee) / 4);
-    const proteinMax = Math.round((0.35 * tee) / 4);
-    const fatMin = Math.round((0.20 * tee) / 9);
-    const fatMax = Math.round((0.35 * tee) / 9);
+      teeText.innerHTML = `Estimated Total Energy Expenditure (TEE): <strong>${tee} kcal/day</strong>`;
 
-    // Meal breakdown (adjust percentages as needed)
-    const mealPlan = {
-      breakfast: Math.round(tee * 0.25),
-      snack: Math.round(tee * 0.10),
-      lunch: Math.round(tee * 0.30),
-      dinner: Math.round(tee * 0.35)
-    };
+      // Generate simple Tanzanian meal plan
+      const breakfast = `Breakfast: Uji wa lishe (maize + peanut porridge), 2 boiled eggs, banana – ~500 kcal`;
+      const lunch = `Lunch: Ugali (maize stiff porridge), bean stew, mchicha (greens), avocado – ~800 kcal`;
+      const snack = `Snack: Roasted groundnuts & fruits (e.g. mango or papaya) – ~300 kcal`;
+      const dinner = `Dinner: Rice with grilled sardines, cabbage, small serving of maziwa mgando (sour milk) – ~700 kcal`;
 
-    // Display results
-    document.getElementById('calories').innerHTML = `
-      Estimated Total Energy Expenditure (TEE): <strong>${tee} kcal/day</strong>
-    `;
+      mealList.innerHTML = `
+        <li>${breakfast}</li>
+        <li>${lunch}</li>
+        <li>${snack}</li>
+        <li>${dinner}</li>
+      `;
 
-    document.getElementById('carbs').textContent = `Carbohydrates: ${carbMin} – ${carbMax} g`;
-    document.getElementById('protein').textContent = `Protein: ${proteinMin} – ${proteinMax} g`;
-    document.getElementById('fat').textContent = `Fat: ${fatMin} – ${fatMax} g`;
-
-    document.getElementById('result').innerHTML += `
-      <div class="mt-6">
-        <h3 class="font-semibold text-blue-700 mb-2">Recommended Calorie Distribution:</h3>
-        <ul class="list-disc list-inside space-y-1">
-          <li>Breakfast: ${mealPlan.breakfast} kcal</li>
-          <li>Snack: ${mealPlan.snack} kcal</li>
-          <li>Lunch: ${mealPlan.lunch} kcal</li>
-          <li>Dinner: ${mealPlan.dinner} kcal</li>
-        </ul>
-      </div>
-    `;
-
-    document.getElementById('result').classList.remove('hidden');
-  });
-    </script>
+      resultDiv.classList.remove('hidden');
+    });
+  </script>
 
 </body>
 </html>
