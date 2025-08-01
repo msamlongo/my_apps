@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BMI Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white shadow-2xl rounded-2xl p-8 max-w-md w-full">
+    <h1 class="text-3xl font-bold text-blue-600 text-center mb-6">BMI Calculator</h1>
+
+    <form id="bmiForm" class="space-y-4">
+      <div>
+        <label for="weight" class="block text-blue-700 font-medium">Weight (kg)</label>
+        <input
+          type="number"
+          id="weight"
+          class="w-full px-4 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="e.g. 70"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="height" class="block text-blue-700 font-medium">Height (cm)</label>
+        <input
+          type="number"
+          id="height"
+          class="w-full px-4 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="e.g. 170"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-xl hover:bg-blue-600 transition"
+      >
+        Calculate BMI
+      </button>
+    </form>
+
+    <div id="result" class="mt-6 text-center text-blue-800 font-medium text-lg hidden"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('bmiForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const weight = parseFloat(document.getElementById('weight').value);
+      const heightCm = parseFloat(document.getElementById('height').value);
+      const heightM = heightCm / 100;
+
+      if (weight > 0 && heightM > 0) {
+        const bmi = (weight / (heightM * heightM)).toFixed(1);
+        let message = '';
+
+        if (bmi < 18.5) {
+          message = 'Underweight';
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+          message = 'Normal weight';
+        } else if (bmi >= 25 && bmi < 29.9) {
+          message = 'Overweight';
+        } else {
+          message = 'Obese';
+        }
+
+        resultDiv.innerHTML = `Your BMI is <strong>${bmi}</strong> (${message})`;
+        resultDiv.classList.remove('hidden');
+      } else {
+        resultDiv.innerHTML = 'Please enter valid values.';
+        resultDiv.classList.remove('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>
